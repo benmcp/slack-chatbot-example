@@ -1,0 +1,4 @@
+.serverless
+.webpack
+.env
+node_modules

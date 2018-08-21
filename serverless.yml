@@ -1,0 +1,66 @@
+service: fully-sick-cat-bot
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  timeout: 10
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - "sns:Publish"
+      Resource: 
+        - ${self:custom.snsEvent}
+  environment:
+    snsEvent: ${self:custom.snsEvent}
+
+custom:
+  webpackIncludeModules: true
+  snsEvent:
+    Fn::Join:
+      - ":"
+      - - arn
+        - aws
+        - sns
+        - Ref: AWS::Region
+        - Ref: AWS::AccountId
+        - snsEvent
+
+functions:
+  slackBot:
+    handler: handler.slackBot
+    events:
+      - http:
+          path: bot
+          method: post
+          integration: lambda
+  dispatcher:
+    handler: handler.catbot
+    events:
+      - sns: snsEvent
+  header:
+    handler: handler.header
+    events:
+      - http:
+          path: header
+          method: get
+  normal:
+    handler: handler.normal
+    events:
+      - http:
+          path: normal
+          method: get
+          integration: lambda
+  promise:
+    handler: handler.promise
+    events:
+      - http:
+          path: promise
+          method: get
+          integration: lambda
