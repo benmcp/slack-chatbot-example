@@ -10,17 +10,14 @@ class ImageHandler {
 	}
 
 	fetchImage(text) {
-		console.log('youre in');
 		this.client.search(text)
 			.then(images => {
 				SlackPost.postImage(
 					'sure, here you go!',
 					images[0].url
 				);
-
 			})
 			.catch(error => { console.log('caught', error.message); });
-
 	}
 }
 

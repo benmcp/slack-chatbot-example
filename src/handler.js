@@ -14,8 +14,8 @@ export const slackBot = (event, context, cb) => {
 		});
 	} else {
 		const params = {
-	    Message: JSON.stringify(event),
-    	TopicArn: process.env.snsEvent,
+			Message: JSON.stringify(event),
+			TopicArn: process.env.snsEvent,
 		};
 
 		const sns = new AWS.SNS();
