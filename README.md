@@ -4,7 +4,7 @@ This is a Slack based Chatbot which pulls images fom [Google Custom Search](http
 
 This was used for my `DDDSydney 2018` presentation `Introduction into Serverless or: How to run a simple chatbot side project for cheap`.
 
-![chatbot](../.images/chatbot.png)
+![chatbot](.images/chatbot.png)
 
 ## Getting Started
 
