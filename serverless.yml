@@ -44,23 +44,4 @@ functions:
     handler: handler.catbot
     events:
       - sns: snsEvent
-  header:
-    handler: handler.header
-    events:
-      - http:
-          path: header
-          method: get
-  normal:
-    handler: handler.normal
-    events:
-      - http:
-          path: normal
-          method: get
-          integration: lambda
-  promise:
-    handler: handler.promise
-    events:
-      - http:
-          path: promise
-          method: get
-          integration: lambda
+

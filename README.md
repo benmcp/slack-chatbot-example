@@ -6,6 +6,8 @@ This was used for my `DDDSydney 2018` presentation `Introduction into Serverless
 
 ## Getting Started
 
+Note, if you run into any major issues along the way, hit me up in Github Issues, Twitter or via Email! There are probably a few bugs/jumps that I didn't quite explain properly.
+
 ### Prerequisites
 
 There are four parts to setting up this project:
