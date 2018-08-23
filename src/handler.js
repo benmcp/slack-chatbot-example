@@ -2,7 +2,7 @@ import Catbot from './catBot';
 const AWS = require('aws-sdk')
 
 /**
- * [slackBot - SNS invoked function]
+ * [slackBot - handle slackbot request]
  * @param  {obj}   event
  * @param  {obj}   context
  * @param  {Function} cb
