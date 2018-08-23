@@ -1,5 +1,4 @@
 import request from 'request';
-import { returnSuccess } from './utils';
 import SlackPost from './slackPost';
 import ImageHandler from './ImageHandler';
 
@@ -11,11 +10,12 @@ class Catbot {
 	 * [handleQuery Text query handler]
 	 * @param	{obj}	 event
 	 * @param	{obj}	 context
-	 * @param	{Function} cb
+	 * @param	{bool} Success/Failure
 	 */
-	static handleQuery(event, context, cb) {
+	static async handleQuery(event, context) {
 
 		// Get important data
+		let res;
 		let query;
 		const body = event.body;
 		const bot = body.authed_users[0];
@@ -24,60 +24,72 @@ class Catbot {
 		// Question time!!!
 		query = 'hey'; 
 		if (text.indexOf(query) > -1) {
-			SlackPost.postText('yo!');
-			returnSuccess(cb);
-			return;
+			res = await SlackPost.postText('yo!');
+			return res;
 		}
 
 		query = 'how are you?';
 		if (text.indexOf(query) > -1) {
-			SlackPost.postText("oh you know, so so. I mean I am a cat...");
-			returnSuccess(cb);
-			return;
+			res = await SlackPost.postText("oh you know, so so. I mean I am a cat...");
+			return res;
 		}
 
 		query = 'am i cool?';
 		if (text.indexOf(query) > -1) {
-			SlackPost.postText('you are reallly cool Ben');
-			returnSuccess(cb);
-			return;
+			res = await SlackPost.postText('you are really cool Ben');
+			return res;
 		}
 
 		query = 'thanks';
 		if (text.indexOf(query) > -1) {
-			SlackPost.postText('no probs');
-			returnSuccess(cb);
-			return;
+			res = await SlackPost.postText('no probs');
+			return res;
 		}
 
 		query = 'is DDDSydney awesome?';
 		if (text.indexOf(query) > -1) {
-			SlackPost.postText('it sure is!!!!');
-			returnSuccess(cb);
-			return;
+			res = await SlackPost.postText('it sure is!!!!');
+			return res;
 		}
 
 		query = 'show me a picture of';
 		if (text.indexOf(query) > -1) {
-			const searchTerm = text.replace(query, '');
-			const imageHandler = new ImageHandler();
-			const res = imageHandler.fetchImage(searchTerm);
-			returnSuccess(cb);
-			return;
+			res = await Catbot.handleImage(text, query);
+			return res;
 		}
 
 		query = 'pic';
 		if (text.indexOf(query) > -1) {
-			const searchTerm = text.replace(query, '');
-			const imageHandler = new ImageHandler();
-			const res = imageHandler.fetchImage(searchTerm);
-			returnSuccess(cb);
-			return;
+			res = await Catbot.handleImage(text, query);
+			return res;
 		}
 
 		// if all else fails
-		SlackPost.postText('wut?');
-		returnSuccess(cb);
+		res = await SlackPost.postText('wut?');
+		return res;
+	}
+
+	/**
+	 * [handleImage - handle async image retrieval]
+	 * @param  {string} text - user text
+	 * @param  {string} query [filter]
+	 * @return {bool}       success/failure
+	 */
+	static async handleImage(text, query) {
+		let res;
+		const searchTerm = text.replace(query, '');
+		const imageHandler = new ImageHandler();
+		const resObj = await imageHandler.fetchImage(searchTerm);
+
+		if (resObj.success) {
+			res = await SlackPost.postImage(
+				'sure, here you go!',
+				resObj.payload
+			);
+		} else {
+			res = await SlackPost.postText('soz, got an error :(');
+		}
+		return res;
 	}
 }
 

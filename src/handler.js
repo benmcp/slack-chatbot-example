@@ -1,6 +1,13 @@
 import Catbot from './catBot';
 const AWS = require('aws-sdk')
 
+/**
+ * [slackBot - SNS invoked function]
+ * @param  {obj}   event
+ * @param  {obj}   context
+ * @param  {Function} cb
+ * @return {Function}
+ */
 export const slackBot = (event, context, cb) => {
 	if ('challenge' in event.body) {
 		cb(null, {
@@ -30,6 +37,24 @@ export const slackBot = (event, context, cb) => {
 	}
 };
 
-exports.catbot = async (event, context, cb) => {
-	Catbot.handleQuery(JSON.parse(event.Records[0].Sns.Message), context, cb);
+/**
+ * [dispatch - SNS invoked function]
+ * @param  {obj}   event
+ * @param  {obj}   context
+ * @param  {Function} cb
+ * @return {Function}
+ */
+export const dispatch = async (event, context, cb) => {
+	let res;
+
+	try {
+		let res = await Catbot.handleQuery(
+			JSON.parse(event.Records[0].Sns.Message),
+			context
+		);
+	} catch (err) {
+		cb(err);
+	}
+
+	cb(null, res);
 }

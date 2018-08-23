@@ -1,35 +1,51 @@
 import request from 'request';
 
 class SlackPost {
-	static postText(text) {
-		return SlackPost.sendMessage({
-			text
-		});
+	static async postText(text) {
+		try {
+			let res = await SlackPost.sendMessage({
+				text
+			});
+			return res;
+		} catch (err) {
+			return err;
+		}
 	}
 
-	static postImage(text, image_url) {
-		return SlackPost.sendMessage({
-			attachments: [{
-				text,
-				image_url
-			}]
-		});
+	static async postImage(text, image_url) {
+		try {
+			let res = await SlackPost.sendMessage({
+				attachments: [{
+					text,
+					image_url
+				}]
+			});
+			return res;
+		} catch (err) {
+			return err;
+		}
 	}
-	static sendMessage(body) {
+
+	static async sendMessage(body) {
 		const url = `https://hooks.slack.com/services/${process.env.SLACK_TOKEN}`;
 		const headers = {
 			'content-type': 'application/json'
 		};
 
-		return request.post({
-			headers,
-			url,
-			body,
-			json: true
-		}, (err, res, body) => {
-			console.log('Slack post response');
-			console.log(err);
-		});		
+		return new Promise((resolve, reject) => {
+			request.post({
+				headers,
+				url,
+				body,
+				json: true
+			}, (err, res, body) => {
+				if (!err && res.statusCode == 200) {
+					resolve(body);
+				} else {
+					reject(err);
+				}
+			});		
+		});
 	}
 }
 

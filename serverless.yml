@@ -41,7 +41,7 @@ functions:
           method: post
           integration: lambda
   dispatcher:
-    handler: handler.catbot
+    handler: handler.dispatch
     events:
       - sns: snsEvent
 

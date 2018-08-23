@@ -9,15 +9,27 @@ class ImageHandler {
 		);
 	}
 
-	fetchImage(text) {
-		this.client.search(text)
-			.then(images => {
-				SlackPost.postImage(
-					'sure, here you go!',
-					images[0].url
-				);
-			})
-			.catch(error => { console.log('caught', error.message); });
+	/**
+	 * [fetchImage - Search Google imges]
+	 * @param  {string} text - user text
+	 * @return {bool}       success/failure
+	 */
+	async fetchImage(text) {
+		try {
+			const res = await this.client.search(text)
+				.then(images => {
+					return {
+						success: true,
+						payload: images[0].url
+					}
+				});
+			return res;
+		} catch (err) {
+			return {
+				success: false,
+				payload: err.message
+			}
+		}
 	}
 }
 
