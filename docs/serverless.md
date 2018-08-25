@@ -14,4 +14,4 @@ sls deploy
 ```
 ![sls dpeloy](../.images/sls-deploy.png)
 
-4. Keen note the `POST Endopint`, i.e. `https://XXXXXXX.execute-api.us-east-1.amazonaws.com/dev/bot`
+4. Keen note the `POST Endpoint`, i.e. `https://XXXXXXX.execute-api.us-east-1.amazonaws.com/dev/bot`
