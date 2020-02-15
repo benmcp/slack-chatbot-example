@@ -52,6 +52,6 @@
     "request": "^2.88.0",
     "serverless-dotenv-plugin": "^1.2.0",
     "serverless-pseudo-parameters": "^2.1.0",
-    "yarn": "^1.17.3"
+    "yarn": "^1.22.0"
   }
 }
