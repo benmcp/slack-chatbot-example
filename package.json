@@ -28,7 +28,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "aws-sdk": "^2.297.0",
+    "aws-sdk": "^2.814.0",
     "aws-sdk-mock": "^4.1.0",
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
